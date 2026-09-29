@@ -1,0 +1,121 @@
+<style>
+  .framerate-widget {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: center;
+  }
+
+  .video-container {
+    width: 100%;
+    background-color: #000;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .video-container img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .fps-btn {
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: 2px solid #1976d2;
+    background-color: #fff;
+    color: #1976d2;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .fps-btn:hover {
+    background-color: #e3f2fd;
+  }
+
+  .fps-btn.active {
+    background-color: #1976d2;
+    color: #fff;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  }
+
+  .fps-description {
+    margin-top: 15px;
+    font-size: 1rem;
+    color: #444;
+    min-height: 48px;
+    padding: 10px;
+    background: #fff;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+</style>
+
+<div class="framerate-widget">
+  <h2>Animation Fluidity Comparison</h2>
+  
+  <div class="video-container">
+    <!-- Default starting image/GIF (24fps) -->
+    <img id="animationDisplay" src="https://via.placeholder.com/800x450/000000/FFFFFF?text=Insert+24fps+GIF+Here" alt="Looping Animation">
+  </div>
+  
+  <div class="controls">
+    <button class="fps-btn" data-fps="8" data-src="https://via.placeholder.com/800x450/42a5f5/FFFFFF?text=Insert+8fps+GIF+Here">8 fps</button>
+    <button class="fps-btn" data-fps="12" data-src="https://via.placeholder.com/800x450/66bb6a/FFFFFF?text=Insert+12fps+GIF+Here">12 fps (On Twos)</button>
+    <button class="fps-btn active" data-fps="24" data-src="https://via.placeholder.com/800x450/ab47bc/FFFFFF?text=Insert+24fps+GIF+Here">24 fps (On Ones)</button>
+  </div>
+
+  <div class="fps-description" id="fpsText">
+    <strong>24 fps (On Ones):</strong> Every single frame of film has a unique drawing, resulting in perfectly fluid, highly detailed motion.
+  </div>
+</div>
+
+<script>
+  // Select the three required selectable buttons: "8 fps," "12 fps (On Twos)," and "24 fps (On Ones)"
+  const buttons = document.querySelectorAll('.fps-btn');
+  const display = document.getElementById('animationDisplay');
+  const description = document.getElementById('fpsText');
+
+  // Descriptive text that updates when students click the buttons to instantly see the changes
+  const descriptions = {
+    "8": "<strong>8 fps:</strong> Movement appears choppy and strobe-like due to a lack of in-between frames.",
+    "12": "<strong>12 fps (On Twos):</strong> Each drawing is held for two frames. This is standard for most traditional animation and anime.",
+    "24": "<strong>24 fps (On Ones):</strong> Every single frame of film has a unique drawing, resulting in perfectly fluid, highly detailed motion."
+  };
+
+  buttons.forEach(button => {
+    button.addEventListener('click', function() {
+      // Reset active states
+      buttons.forEach(btn => btn.classList.remove('active'));
+      
+      // Highlight the clicked button
+      this.classList.add('active');
+      
+      // Swap the source file to demonstrate how adding more in-between frames changes the movement
+      const newSrc = this.getAttribute('data-src');
+      display.src = newSrc;
+      
+      // Update the contextual text
+      const fps = this.getAttribute('data-fps');
+      description.innerHTML = descriptions[fps];
+    });
+  });
+</script>
